@@ -1,0 +1,32 @@
+{
+  "name": "object-track",
+  "version": "1.0.0",
+  "description": "Wrap an object to track assignments and calls for inspection or playback.",
+  "main": "index.js",
+  "license": "MIT",
+  "keywords": [
+    "object",
+    "track",
+    "journal",
+    "record",
+    "playback",
+    "replay",
+    "wrapper"
+  ],
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "eslint": "^1.10.2",
+    "mocha": "^2.3.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/MellowMelon/object-track.git"
+  },
+  "author": {
+    "name": "Palmer Mebane"
+  },
+  "scripts": {
+    "test": "mocha || true",
+    "check": "eslint -c .eslintrc *.js test/*.js || true"
+  }
+}
