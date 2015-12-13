@@ -96,11 +96,18 @@ npm run check
 
 # Edge Cases and Limitations
 
-tl;dr: Complex object interactions and dynamic objects are likely to break the tracker. Tracking is best done on objects with no external relationships and a fixed set of properties and methods, like a canvas context.
+tl;dr: Complex object interactions and dynamic objects are likely to break the
+tracker. Tracking is best done on objects with no external relationships and a
+fixed set of properties and methods, like a canvas context.
 
-If a method call is made on the tracker with a context other than the tracker itself, the call is assumed to operate on a different object and is not recorded in the actions list. The call is forwarded as usual, however.
+If a method call is made on the tracker with a context other than the tracker
+itself, the call is assumed to operate on a different object and is not
+recorded in the actions list. The call is forwarded as usual, however.
 
-The tracker is intentionally shallow, and only calls made directly on it will be tracked. If the wrapped object has methods that call its other methods, those internal calls are not made on the tracker and will not be recorded. Example:
+The tracker is intentionally shallow, and only calls made directly on it will
+be tracked. If the wrapped object has methods that call its other methods,
+those internal calls are not made on the tracker and will not be recorded.
+Example:
 ``` js
 var Tracker = require("object-track");
 var obj = {
@@ -116,16 +123,25 @@ console.log(Tracker.getActions(tracked));
 // Notice the call to method1 is not recorded.
 ```
 
-The environment is assumed not to support proxies or object observation, so the implementation uses nothing more complicated than `Object.defineProperty`, and a `for-in` loop is used to detect properties and methods to track. The consequences of this are
-- nonenumerable properties and methods are not in the tracker, and interactions with them as though the original object was being used may fail.
-- `delete object[key]` operations are not tracked and will result in that key no longer being tracked or forwarded.
-- if the object's properties contain objects themselves, mutations or method calls on them will not be tracked.
+The environment is assumed not to support proxies or object observation, so the
+implementation uses nothing more complicated than `Object.defineProperty`, and
+a `for-in` loop is used to detect properties and methods to track. The
+consequences of this are
+- nonenumerable properties and methods are not in the tracker, and interactions
+  with them as though the original object was being used may fail.
+- `delete object[key]` operations are not tracked and will result in that key
+  no longer being tracked or forwarded.
+- if the object's properties contain objects themselves, mutations or method
+  calls on them will not be tracked.
 - additions of new properties or methods to the tracked object are not tracked.
 - additions of new properties or methods to the tracker will not be forwarded.
 
-In theory, the nonenumerable properties issue could be fixed by using `Object.getOwnPropertyNames`, but the originally intended use case was canvas contexts which do not play well with that function for some reason.
+In theory, the nonenumerable properties issue could be fixed by using
+`Object.getOwnPropertyNames` and a walk up the prototype chain. This may become
+an option in a future version.
 
-Finally, objects with a key `__TRACKING_DATA__` won't work correctly. (This key is used internally by the tracker.)
+Finally, objects with a key `__TRACKING_DATA__` won't work correctly. (This key
+is used internally by the tracker.)
 
 # License
 
