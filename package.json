@@ -1,6 +1,6 @@
 {
   "name": "object-track",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Wrap an object to track assignments and calls for inspection or playback.",
   "main": "index.js",
   "license": "MIT",
