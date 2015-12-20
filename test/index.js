@@ -13,9 +13,11 @@ describe("object-track", function () {
       prop2: "a",
       method1: function (n) {
         this.prop1 += n;
+        return this.prop1;
       },
       method2: function (s) {
         this.prop2 += s;
+        return this.prop2;
       },
     };
   });
@@ -56,6 +58,15 @@ describe("object-track", function () {
     expect(tracked.prop1).to.equal(3);
     testObject.method1(1);
     expect(tracked.prop1).to.equal(4);
+  });
+
+  it("should report correct returns for the object's methods", function () {
+    var tracked = Tracker.track(testObject);
+    var ret;
+    ret = tracked.method1(2);
+    expect(ret).to.equal(3);
+    ret = tracked.method2("bc");
+    expect(ret).to.equal("abc");
   });
 
   it("should not track method calls with a different context", function () {
