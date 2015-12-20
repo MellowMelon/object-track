@@ -88,7 +88,7 @@ var addMethods = function (tracker, methodList) {
           arguments: argsArray,
         });
       }
-      trackingData.object[name].apply(context, argsArray);
+      return trackingData.object[name].apply(context, argsArray);
     };
   });
 };
